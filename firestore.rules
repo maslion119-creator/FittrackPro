@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection testing endpoint
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // User profile document
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+
+      // User's daily step records
+      match /stepEntries/{entryId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User's logged meals and nutrition
+      match /foodEntries/{entryId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User's logged workout sessions
+      match /workoutEntries/{entryId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User's body weight weigh-in logs
+      match /weightEntries/{entryId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User's daily water hydration logs
+      match /waterEntries/{entryId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+  }
+}

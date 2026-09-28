@@ -1,0 +1,135 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with body metrics and daily fitness targets",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "age": { "type": "number" },
+        "gender": { "type": "string", "enum": ["male", "female", "other"] },
+        "height": { "type": "number" },
+        "weight": { "type": "number" },
+        "targetWeight": { "type": "number" },
+        "activityLevel": { "type": "string", "enum": ["sedentary", "light", "moderate", "active", "very_active"] },
+        "goal": { "type": "string", "enum": ["lose_weight", "maintain", "build_muscle"] },
+        "dailyCalorieTarget": { "type": "number" },
+        "dailyStepGoal": { "type": "number" },
+        "dailyWaterGoal": { "type": "number" },
+        "weeklyWorkoutGoal": { "type": "number" },
+        "theme": { "type": "string", "enum": ["dark", "light"] },
+        "unitPreference": {
+          "type": "object",
+          "properties": {
+            "weight": { "type": "string", "enum": ["kg", "lbs"] },
+            "height": { "type": "string", "enum": ["cm", "ft_in"] }
+          }
+        },
+        "isOnboarded": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "email"]
+    },
+    "StepEntry": {
+      "title": "StepEntry",
+      "description": "Daily manual step entry and mobility data",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 10 },
+        "steps": { "type": "number" },
+        "distanceKm": { "type": "number" },
+        "caloriesBurned": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["date", "steps"]
+    },
+    "FoodEntry": {
+      "title": "FoodEntry",
+      "description": "Logged meal with calories and macronutrient breakdown",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 10 },
+        "mealType": { "type": "string", "enum": ["breakfast", "lunch", "dinner", "snack"] },
+        "foodName": { "type": "string", "maxLength": 120 },
+        "calories": { "type": "number" },
+        "protein": { "type": "number" },
+        "carbs": { "type": "number" },
+        "fats": { "type": "number" },
+        "quantity": { "type": "number" },
+        "servingUnit": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["date", "mealType", "foodName", "calories"]
+    },
+    "WorkoutEntry": {
+      "title": "WorkoutEntry",
+      "description": "Logged exercise session with sets, reps, weight, and duration",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 10 },
+        "time": { "type": "string", "maxLength": 10 },
+        "category": { "type": "string", "enum": ["Strength", "Cardio", "HIIT", "Yoga", "Pilates", "Other"] },
+        "exerciseName": { "type": "string", "maxLength": 120 },
+        "sets": { "type": "number" },
+        "reps": { "type": "number" },
+        "weight": { "type": "number" },
+        "duration": { "type": "number" },
+        "caloriesBurned": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["date", "category", "exerciseName", "duration", "caloriesBurned"]
+    },
+    "WeightEntry": {
+      "title": "WeightEntry",
+      "description": "Periodic body weight weigh-in record",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 10 },
+        "weight": { "type": "number" },
+        "note": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["date", "weight"]
+    },
+    "WaterEntry": {
+      "title": "WaterEntry",
+      "description": "Daily hydration water glasses tally",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 10 },
+        "glasses": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["date", "glasses"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile with body metrics and daily fitness targets"
+    },
+    "/users/{userId}/stepEntries/{entryId}": {
+      "schema": "StepEntry",
+      "description": "Daily step entry logs for a user"
+    },
+    "/users/{userId}/foodEntries/{entryId}": {
+      "schema": "FoodEntry",
+      "description": "Meal nutrition entries for a user"
+    },
+    "/users/{userId}/workoutEntries/{entryId}": {
+      "schema": "WorkoutEntry",
+      "description": "Logged workout sessions for a user"
+    },
+    "/users/{userId}/weightEntries/{entryId}": {
+      "schema": "WeightEntry",
+      "description": "Logged weight check-ins for a user"
+    },
+    "/users/{userId}/waterEntries/{entryId}": {
+      "schema": "WaterEntry",
+      "description": "Logged water hydration entries for a user"
+    }
+  }
+}

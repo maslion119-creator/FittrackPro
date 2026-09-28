@@ -1,0 +1,6 @@
+{
+  "name": "FitTrack - Pro Fitness & Health Tracker",
+  "description": "Comprehensive fitness tracking web application with workout logs, diet & macro tracking, daily step counter, water log, weight analytics, and customizable health goals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
